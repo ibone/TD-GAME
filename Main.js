@@ -1,16 +1,52 @@
-Vector2 = function(x, y) { this.x = x; this.y = y; };
+/*
+ *
+ *主函数
+ *
+ */
+var MOUSE_SHOW_DATA = [];
+var WALL_SHOW_DATA = [];
+var DEFENDER_SHOW_DATA = [];
 
-Vector2.prototype = {
-    copy : function() { return new Vector2(this.x, this.y); },
-    length : function() { return Math.sqrt(this.x * this.x + this.y * this.y); },
-    sqrLength : function() { return this.x * this.x + this.y * this.y; },
-    normalize : function() { var inv = 1/this.length(); return new Vector2(this.x * inv, this.y * inv); },
-    negate : function() { return new Vector2(-this.x, -this.y); },
-    add : function(v) { return new Vector2(this.x + v.x, this.y + v.y); },
-    subtract : function(v) { return new Vector2(this.x - v.x, this.y - v.y); },
-    multiply : function(f) { return new Vector2(this.x * f, this.y * f); },
-    divide : function(f) { var invf = 1/f; return new Vector2(this.x * invf, this.y * invf); },
-    dot : function(v) { return this.x * v.x + this.y * v.y; }
+var Draw = function(canvasName, func) {
+    var canvas = document.getElementById(canvasName);
+    var ctx = canvas.getContext("2d");
+	var STOP = {val:true};
+    var loop = function() {
+		if(STOP.val){
+			func(ctx,STOP);
+			setTimeout(loop, 10);
+		}
+    }
+    loop();
+	this.stop = function(){
+		STOP.val = false;
+	}
+}
+
+var showAll = function(ctx,STOP){
+	showMouse(ctx);
+	showWall(ctx);
+	showDefender(ctx);
+}
+var showMouse = function(ctx){
+	if(MOUSE_SHOW_DATA.length){
+		Tool.each(MOUSE_SHOW_DATA,function(i,mouse){
+            ctx.fillStyle = mouse.appearance.color;
+            ctx.beginPath();
+            ctx.arc(mouse.position.x, mouse.position.y, mouse.appearance.size, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.fill();
+		})
+	}
+}
+var showWall = function(ctx){
+	
+}
+var showDefender = function(ctx){
+	
+}
+var Main = function(){
+	MOUSE_SHOW_DATA.push(new Mouse({position:Vector2(10,10)}));
+	new Draw('TD_Canvas',showAll);
 };
-
-Vector2.zero = new Vector2(0, 0);
+Main()
