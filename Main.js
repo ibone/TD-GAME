@@ -3,19 +3,21 @@
  *主函数
  *
  */
-var MOUSE_SHOW_DATA = [];
-var WALL_SHOW_DATA = [];
-var DEFENDER_SHOW_DATA = [];
+var TD = {}//全局变量；
+TD.data = {};
+TD.ctx = null;
 
+(function(){
 var Draw = function(canvasName, func) {
     var canvas = document.getElementById(canvasName);
     var ctx = canvas.getContext("2d");
 	ctx.width = canvas.width;
 	ctx.height = canvas.height;
+	TD.ctx = ctx;
 	var STOP = {val:true};
     var loop = function() {
 		if(STOP.val){
-			func(ctx,STOP);
+			func(ctx);
 			setTimeout(loop, 10);
 		}
     }
@@ -39,7 +41,7 @@ var nextFrame = function(ctx){
 		})
 	}
 }
-var showAll = function(ctx,STOP){
+var initFrame = function(){
 	var starTime = new Date();
 	ctx.fillStyle="rgba(255, 255, 255, 1)";
 	ctx.fillRect(0,0,ctx.width,ctx.height);
@@ -55,12 +57,12 @@ var showMouse = function(ctx){
 			if(!mouse)return;
 			ctx.fillStyle = mouse.appearance.color;
 			ctx.beginPath();
-			ctx.arc(mouse.position.x, mouse.position.y, 3, 0, Math.PI * 2, true);
+			ctx.arc(mouse.position.x, mouse.position.y, 10, 0, Math.PI * 2, true);
 			ctx.closePath();
 			ctx.fill();
-			ctx.fillStyle = "#ffffff";
-			ctx.font = "normal 12px Arial";
-			ctx.textBaseline = "center";
+			//ctx.fillStyle = "#ffffff";
+			//ctx.font = "normal 12px Arial";
+			//ctx.textBaseline = "center";
 			//ctx.fillText(this.id+'', mouse.position.x-3, mouse.position.y+5);
 		})
 	}
@@ -80,9 +82,11 @@ var showFPS = function(ctx,starTime){
 	ctx.fillText(Math.floor(1000/time), 300, 0);
 }
 var Main = function(){
-	for(var i=0;i<10;i++){
-		MOUSE_SHOW_DATA.push(new Mouse({id:MOUSE_SHOW_DATA.length,position:new Vector2(Math.random()*200,Math.random()*200)}));
-	}
+	//剧情设定开始
+	//例子：一个老鼠 几个墙 让老鼠绕过几个墙
+	Mouse.add();
+	new Wall({});
 	return new Draw('TD_Canvas',showAll);
 };
 var a = Main();
+}())

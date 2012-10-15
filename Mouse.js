@@ -1,7 +1,7 @@
 /*
  *@depend Tool.js
  *@depend Vector2.js
- *@depend Appearance.js
+ *
  *怪物模型类
  *
  */
@@ -11,15 +11,16 @@ var Mouse = function(config){
 	this.acceleration = config.acceleration||Vector2.zero;
 	this.age = config.age||0;
 	this.life = config.life||1000;
-	this.appearance = new Appearance();
 	this.id = config.id;
+	this.view();
 }
 Mouse.prototype = {
 	kill:function(){
 		MOUSE_SHOW_DATA[this.id]=null;
 	},
 	move:function(){
-		this.position = this.position.add(this.velocity)
+		this.position = this.position.add(this.velocity);
+		this.view();
 	},
 	isSurpass:function(w,h){
 		if(this.position.x>w||this.position.y>h){
@@ -27,5 +28,14 @@ Mouse.prototype = {
 		}else{
 			return false;
 		}
+	},
+	view:function(){
+		if(!TD.ctx)return;
+		var ctx = TD.ctx;
+		ctx.fillStyle = mouse.appearance.color;
+		ctx.beginPath();
+		ctx.arc(this.position.x, this.position.y, 10, 0, Math.PI * 2, true);
+		ctx.closePath();
+		ctx.fill();
 	}
 }
