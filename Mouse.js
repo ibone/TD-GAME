@@ -16,7 +16,7 @@ var Mouse = function(config){
 }
 Mouse.prototype = {
 	kill:function(){
-		MOUSE_SHOW_DATA[this.id]=null;
+		TD.module[this.id]=null;
 	},
 	move:function(){
 		this.position = this.position.add(this.velocity);
