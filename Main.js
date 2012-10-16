@@ -10,7 +10,7 @@ TD.add = function(module){
 	var length = this.module.length;
 	module.id = length;
 	this.module.push(module);
-}
+};
 
 (function(){
 var Draw = function(canvasName) {
@@ -21,16 +21,18 @@ var Draw = function(canvasName) {
 	TD.ctx = ctx;
 	var STOP = {val:true};
     var loop = function() {
-		if(STOP.val){
-			if(TD.module.length){
-				Tool.each(TD.module,function(i,module){
-					if(!module)return;
-					module.view();
-				})
-			}
-			showFPS(ctx,starTime);
-			setTimeout(loop, 10);
+		if(!STOP.val)return;
+		//重置画布
+		ctx.fillStyle="rgba(255, 255, 255, 1)";
+		ctx.fillRect(0,0,ctx.width,ctx.height);
+		if(TD.module.length){
+			Tool.each(TD.module,function(i,module){
+				if(!module)return;
+				module.view();
+			})
 		}
+		//showFPS(ctx,starTime);
+		setTimeout(loop, 100);
     }
 	loop();
 	this.stop = function(){
@@ -41,7 +43,8 @@ var Draw = function(canvasName) {
 		loop();
 	}
 }
-var showFPS = function(ctx,starTime){
+var showFPS = function(starTime){
+	var ctx = TD.ctx;
 	var endTime = new Date();
 	var time = endTime - starTime + 10;
 	ctx.fillStyle = "#000";
@@ -52,9 +55,8 @@ var showFPS = function(ctx,starTime){
 var Main = function(){
 	//剧情设定开始
 	//例子：一个老鼠 几个墙 让老鼠绕过几个墙
-	Mouse.add();
-	new Wall({});
-	return new Draw('TD_Canvas',showAll);
+	TD.add(new Mouse());
+	return new Draw('TD_Canvas');
 };
 var a = Main();
 }())
