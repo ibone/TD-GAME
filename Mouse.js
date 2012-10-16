@@ -10,29 +10,32 @@ var Mouse = function(config){
 		config = {};
 	}
 	this.position = config.position||Vector2.zero;
-	this.velocity = config.velocity||new Vector2(0,1/10);
+	this.velocity = config.velocity||0.1;
 	this.acceleration = config.acceleration||Vector2.zero;
 	this.age = config.age||0;
 	this.life = config.life||1000;
-	this.id = config.id;
+	this.visibleRange = 20;
 }
 Mouse.prototype = {
 	kill:function(){
 		TD.module[this.id]=null;
 	},
-	move:function(){
-		this.position = this.position.add(this.velocity);
+	move:function(angle){
+		var x = Math.cos(angle).toFixed(2);
+		var y = Math.sin(angle).toFixed(2);
+		var vector2 = new Vector2(this.velocity*x,this.velocity*y);
+		this.position = this.position.add(vector2);
 	},
-	isSurpass:function(w,h){
-		if(this.position.x>w||this.position.y>h){
-			return true;
-		}else{
-			return false;
-		}
+	turn:function(){
+		var angle = Math.PI*1.5;
+		return angle;
+	},
+	think:function(){
+		if(this.position.)
 	},
 	view:function(){
 		if(!TD.ctx)return;
-		this.move();
+		this.think();
 		var ctx = TD.ctx;
 		ctx.fillStyle = 'rgba(0,0,0,1)';
 		ctx.beginPath();

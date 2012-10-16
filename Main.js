@@ -32,7 +32,7 @@ var Draw = function(canvasName) {
 			})
 		}
 		//showFPS(ctx,starTime);
-		setTimeout(loop, 100);
+		setTimeout(loop, 10);
     }
 	loop();
 	this.stop = function(){
@@ -55,7 +55,17 @@ var showFPS = function(starTime){
 var Main = function(){
 	//剧情设定开始
 	//例子：一个老鼠 几个墙 让老鼠绕过几个墙
-	TD.add(new Mouse());
+	TD.add(new Mouse({
+		position:new Vector2(50,50)
+	}));
+	for(var i=0;i<20;i++){
+		TD.add(new Wall({
+			position:{
+				x:Math.floor(Math.random()*300),
+				y:Math.floor(Math.random()*300)
+			}
+		}));
+	}
 	return new Draw('TD_Canvas');
 };
 var a = Main();

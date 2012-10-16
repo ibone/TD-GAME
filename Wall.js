@@ -6,15 +6,19 @@
  *
  */
 var Wall = function(config){
+	if(!config){
+		config = {};
+	}
 	this.position = config.position||Vector2.zero;
-	this.size = 5;
-	this.id = config.id;
 }
 Wall.prototype = {
-	destroy:function(){
-		MOUSE_SHOW_DATA[this.id]=null;
-	}
+	remove:function(){
+		TD.module[this.id]=null;
+	},
 	view:function(){
-	
+		if(!TD.ctx)return;
+		var ctx = TD.ctx;
+		ctx.fillStyle = "rgb(0,0,0,0,1)";
+        ctx.fillRect (this.position.x, this.position.y, 20, 5);
 	}
 }
