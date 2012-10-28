@@ -5,7 +5,7 @@
  */
 var TD = {}//全局变量；
 TD.module = [];
-//添加画布全局对象
+//画布全局对象
 TD.ctx = null;
 //实例添加
 TD.add = function(module){
