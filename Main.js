@@ -68,5 +68,5 @@ var Main = function(){
 	}
 	return new Draw('TD_Canvas');
 };
-var a = Main();
+Tool.extend(TD,Main())
 }())

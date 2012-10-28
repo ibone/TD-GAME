@@ -4,7 +4,7 @@
  *
  */
 var timestamp = Math.random();
-var timestamp1 = 55;
+var timestamp1 = 57;
 Do.add('Mouse', {path: 'Mouse.js?'+timestamp1, type: 'js', requires: ['Vector2','Tool']});
 Do.add('Wall', {path: 'Wall.js?'+timestamp1, type: 'js', requires: ['Tool']});
 Do.add('Vector2', {path: 'Vector2.js', type: 'js'});

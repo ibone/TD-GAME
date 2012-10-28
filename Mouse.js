@@ -15,23 +15,39 @@ var Mouse = function(config){
 	this.age = config.age||0;
 	this.life = config.life||1000;
 	this.visibleRange = 20;
+	this.angle = Math.PI*1.5;
+	this.size = 5;
 }
 Mouse.prototype = {
 	kill:function(){
 		TD.module[this.id]=null;
 	},
-	move:function(angle){
-		var x = Math.cos(angle).toFixed(2);
-		var y = Math.sin(angle).toFixed(2);
+	move:function(){
+		var x = Math.cos(this.angle).toFixed(2);
+		var y = Math.sin(this.angle).toFixed(2);
 		var vector2 = new Vector2(this.velocity*x,this.velocity*y);
 		this.position = this.position.add(vector2);
 	},
 	turn:function(){
-		var angle = Math.PI*1.5;
-		return angle;
+		this.angle = 1;
 	},
+	//行为驱动（怪物会思考）
 	think:function(){
-		if(this.position.)
+		
+	},
+	//查看周围是否有Wall
+	scan:function(){
+		//以怪物为轴心的位置
+		var scanPositon = new Vector2(this.visibleRange*Math.cos(this.angle),-this.visibleRange*Math.sin(this.angle));
+		//以canvas节点左上角为轴心的位置
+		scanPositon = this.position.add(scanPositon);
+		var findWall = function(){
+			var scanLine = [];
+			TD.ctx.getImageData(scanPositon.x,scanPositon.y,1,1)
+		}
+		if(findWall){
+			
+		}
 	},
 	view:function(){
 		if(!TD.ctx)return;
@@ -39,7 +55,7 @@ Mouse.prototype = {
 		var ctx = TD.ctx;
 		ctx.fillStyle = 'rgba(0,0,0,1)';
 		ctx.beginPath();
-		ctx.arc(this.position.x, this.position.y, 5, 0, Math.PI * 2, true);
+		ctx.arc(this.position.x, this.position.y, this.size, 0, Math.PI * 2, true);
 		ctx.closePath();
 		ctx.fill();
 	}
